@@ -1,11 +1,19 @@
 package main
 
+import rl "vendor:raylib"
+
 import "core:fmt"
 import "platform/core"
 import "../game"
 
 main :: proc() {
-    fmt.println("Hello from windaube entry point")
-    core.platform_hello() 
-    game.game_hello()
+    rl.InitWindow(400, 240, "Test")
+    defer rl.CloseWindow() 
+
+    game.init()
+    defer game.deinit()
+
+    for !rl.WindowShouldClose() {
+        game.update(rl.GetFrameTime())
+    }
 }

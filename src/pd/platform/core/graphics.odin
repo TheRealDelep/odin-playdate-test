@@ -10,11 +10,21 @@ default_font : ^pd.Font
 
 begin_draw :: proc() {
     api := cast(^pd.Api)context.user_ptr
-    api.graphics.clear({.})
+    api.graphics.clear({solid = .White})
 }
 
-end_draw :: proc() {
+end_draw :: proc() { }
 
+get_text_width :: proc(text: string) -> i32 {
+    api := cast(^pd.Api)context.user_ptr
+
+    return api.graphics.get_text_width(
+        default_font, 
+        cstring(raw_data(text)),
+        len(text),
+        .ASCII,
+        0
+    )
 }
 
 draw_text :: proc(text: string, pos: [2]i32) {
